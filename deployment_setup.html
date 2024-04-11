@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Deployment Steps to AWS EC2 Instance &mdash; Letting 1.0 documentation</title>
+  <title>Deployment Steps to Heroku with CircleCI and DockerHub &mdash; Letting 1.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
       <link rel="stylesheet" type="text/css" href="_static/custom.css?v=045fcb0f" />
@@ -52,16 +52,17 @@
 <li class="toctree-l1"><a class="reference internal" href="database_structure.html">Database Structure and Models</a></li>
 <li class="toctree-l1"><a class="reference internal" href="technologies_used.html">Technologies Used</a></li>
 <li class="toctree-l1"><a class="reference internal" href="unittest.html">Test Documentation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="docker_setup.html">Docker Setup for Development</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Deployment Steps to AWS EC2 Instance</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#step-1-generate-aws-key-pair">Step 1: Generate AWS Key Pair</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#step-2-configure-circleci">Step 2: Configure CircleCI</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#step-3-create-ec2-instance">Step 3: Create EC2 Instance</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#step-4-set-up-docker-and-docker-compose-on-ec2-instance">Step 4: Set Up Docker and Docker Compose on EC2 Instance</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#step-5-prepare-django-app-for-deployment">Step 5: Prepare Django App for Deployment</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#step-6-push-code-changes-and-trigger-ci-cd-pipeline">Step 6: Push Code Changes and Trigger CI/CD Pipeline</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#step-7-verify-deployment">Step 7: Verify Deployment</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Deployment Steps to Heroku with CircleCI and DockerHub</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#step-1-create-heroku-account">Step 1: Create Heroku Account</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#step-2-install-heroku-cli">Step 2: Install Heroku CLI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#step-3-prepare-django-app-for-deployment">Step 3: Prepare Django App for Deployment</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#step-4-initialize-git-repository">Step 4: Initialize Git Repository</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#step-5-set-up-circleci-configuration">Step 5: Set Up CircleCI Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#step-6-commit-circleci-configuration-changes">Step 6: Commit CircleCI Configuration Changes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#step-7-deploy-your-django-app">Step 7: Deploy Your Django App</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#step-8-verify-deployment">Step 8: Verify Deployment</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#conclusion">Conclusion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#circleci-environment-variables">CircleCI Environment Variables</a></li>
 </ul>
 </li>
 </ul>
@@ -80,7 +81,7 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
-      <li class="breadcrumb-item active">Deployment Steps to AWS EC2 Instance</li>
+      <li class="breadcrumb-item active">Deployment Steps to Heroku with CircleCI and DockerHub</li>
       <li class="wy-breadcrumbs-aside">
             <a href="_sources/deployment_setup.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -90,87 +91,173 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="deployment-steps-to-aws-ec2-instance">
-<h1>Deployment Steps to AWS EC2 Instance<a class="headerlink" href="#deployment-steps-to-aws-ec2-instance" title="Link to this heading"></a></h1>
-<section id="step-1-generate-aws-key-pair">
-<h2>Step 1: Generate AWS Key Pair<a class="headerlink" href="#step-1-generate-aws-key-pair" title="Link to this heading"></a></h2>
+  <section id="deployment-steps-to-heroku-with-circleci-and-dockerhub">
+<h1>Deployment Steps to Heroku with CircleCI and DockerHub<a class="headerlink" href="#deployment-steps-to-heroku-with-circleci-and-dockerhub" title="Link to this heading"></a></h1>
+<section id="step-1-create-heroku-account">
+<h2>Step 1: Create Heroku Account<a class="headerlink" href="#step-1-create-heroku-account" title="Link to this heading"></a></h2>
 <ol class="arabic simple">
-<li><p>Sign in to the AWS Management Console.</p></li>
-<li><p>Navigate to the EC2 Dashboard.</p></li>
-<li><p>Click on “Key Pairs” in the left-hand navigation pane.</p></li>
-<li><p>Click on “Create Key Pair”.</p></li>
-<li><p>Enter a name for the key pair (e.g., <cite>my-aws-key</cite>) and click “Create Key Pair”.</p></li>
-<li><p>Download the private key file (<cite>my-aws-key.pem</cite>) to your local machine and ensure secure storage.</p></li>
+<li><p>Visit the Heroku website at <a class="reference external" href="https://www.heroku.com/">https://www.heroku.com/</a>.</p></li>
+<li><p>Sign up for a free Heroku account if you don’t have one already.</p></li>
 </ol>
 </section>
-<section id="step-2-configure-circleci">
-<h2>Step 2: Configure CircleCI<a class="headerlink" href="#step-2-configure-circleci" title="Link to this heading"></a></h2>
+<section id="step-2-install-heroku-cli">
+<h2>Step 2: Install Heroku CLI<a class="headerlink" href="#step-2-install-heroku-cli" title="Link to this heading"></a></h2>
 <ol class="arabic simple">
-<li><p>Open your project’s CircleCI configuration file (<cite>config.yml</cite>).</p></li>
-<li><p>Ensure that the <cite>config.yml</cite> file contains the necessary steps for building and deploying your Django app.</p></li>
-<li><p>Replace placeholders (e.g., <cite>YOUR_AWS_KEY.pem</cite>, <cite>YOUR_EC2_PUBLIC_IP</cite>, <cite>DOCKERHUB_USERNAME</cite>, <cite>DOCKERHUB_PASSWORD</cite>) with your actual credentials and settings.</p></li>
-<li><p>Commit the changes to your repository.</p></li>
+<li><p>Install the Heroku Command Line Interface (CLI) by following the instructions provided at <a class="reference external" href="https://devcenter.heroku.com/articles/heroku-cli">https://devcenter.heroku.com/articles/heroku-cli</a>.</p></li>
 </ol>
 </section>
-<section id="step-3-create-ec2-instance">
-<h2>Step 3: Create EC2 Instance<a class="headerlink" href="#step-3-create-ec2-instance" title="Link to this heading"></a></h2>
-<ol class="arabic simple">
-<li><p>Log in to the AWS Management Console.</p></li>
-<li><p>Navigate to the EC2 Dashboard.</p></li>
-<li><p>Click on “Launch Instance” to create a new EC2 instance.</p></li>
-<li><p>Choose an Amazon Machine Image (AMI) for your instance.</p></li>
-<li><p>Select an instance type (e.g., t2.micro).</p></li>
-<li><p>Configure instance details, including network settings, security groups, and key pairs.</p></li>
-<li><p>Review and launch the instance.</p></li>
-<li><p>Connect to the EC2 instance using SSH.</p></li>
-</ol>
-</section>
-<section id="step-4-set-up-docker-and-docker-compose-on-ec2-instance">
-<h2>Step 4: Set Up Docker and Docker Compose on EC2 Instance<a class="headerlink" href="#step-4-set-up-docker-and-docker-compose-on-ec2-instance" title="Link to this heading"></a></h2>
+<section id="step-3-prepare-django-app-for-deployment">
+<h2>Step 3: Prepare Django App for Deployment<a class="headerlink" href="#step-3-prepare-django-app-for-deployment" title="Link to this heading"></a></h2>
 <ol class="arabic">
-<li><p>Once connected to the EC2 instance via SSH, update the package repositories:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sudo</span> <span class="n">apt</span><span class="o">-</span><span class="n">get</span> <span class="n">update</span>
-</pre></div>
-</div>
-</li>
-<li><p>Install Docker:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sudo</span> <span class="n">apt</span><span class="o">-</span><span class="n">get</span> <span class="n">install</span> <span class="o">-</span><span class="n">y</span> <span class="n">docker</span><span class="o">.</span><span class="n">io</span>
-</pre></div>
-</div>
-</li>
-<li><p>Install Docker Compose:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sudo</span> <span class="n">apt</span><span class="o">-</span><span class="n">get</span> <span class="n">install</span> <span class="o">-</span><span class="n">y</span> <span class="n">docker</span><span class="o">-</span><span class="n">compose</span>
+<li><p>Ensure that your Django project is configured properly for deployment.</p></li>
+<li><p>Make sure you have a <code class="docutils literal notranslate"><span class="pre">requirements.txt</span></code> file listing all the project dependencies.</p></li>
+<li><p>Create a <code class="docutils literal notranslate"><span class="pre">Procfile</span></code> in the root directory of your project to specify the commands to run your application.</p>
+<p>Example <code class="docutils literal notranslate"><span class="pre">Procfile</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">web</span><span class="p">:</span> <span class="n">gunicorn</span> <span class="n">your_project_name</span><span class="o">.</span><span class="n">wsgi</span> <span class="o">--</span><span class="n">log</span><span class="o">-</span><span class="n">file</span> <span class="o">-</span>
 </pre></div>
 </div>
 </li>
 </ol>
 </section>
-<section id="step-5-prepare-django-app-for-deployment">
-<h2>Step 5: Prepare Django App for Deployment<a class="headerlink" href="#step-5-prepare-django-app-for-deployment" title="Link to this heading"></a></h2>
-<ol class="arabic simple">
-<li><p>Ensure that your Django project is configured for deployment with Docker and Docker Compose.</p></li>
-<li><p>Update the <cite>Dockerfile</cite> and <cite>docker-compose.yml</cite> files as necessary.</p></li>
-<li><p>Make sure all project dependencies are listed in the <cite>requirements.txt</cite> file.</p></li>
+<section id="step-4-initialize-git-repository">
+<h2>Step 4: Initialize Git Repository<a class="headerlink" href="#step-4-initialize-git-repository" title="Link to this heading"></a></h2>
+<ol class="arabic">
+<li><p>If your project is not already under version control, initialize a Git repository in your project directory.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>init
+</pre></div>
+</div>
+</li>
+<li><p>Add your project files to the repository and commit them.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>add<span class="w"> </span>.
+git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;Initial commit&quot;</span>
+</pre></div>
+</div>
+</li>
 </ol>
 </section>
-<section id="step-6-push-code-changes-and-trigger-ci-cd-pipeline">
-<h2>Step 6: Push Code Changes and Trigger CI/CD Pipeline<a class="headerlink" href="#step-6-push-code-changes-and-trigger-ci-cd-pipeline" title="Link to this heading"></a></h2>
-<ol class="arabic simple">
-<li><p>Commit and push any changes to your project repository.</p></li>
-<li><p>CircleCI will automatically trigger the CI/CD pipeline.</p></li>
-<li><p>CircleCI will build the Docker image, run unittests, push the image to DockerHub, and deploy the app to the EC2 instance.</p></li>
+<section id="step-5-set-up-circleci-configuration">
+<h2>Step 5: Set Up CircleCI Configuration<a class="headerlink" href="#step-5-set-up-circleci-configuration" title="Link to this heading"></a></h2>
+<ol class="arabic">
+<li><p>Create a <code class="docutils literal notranslate"><span class="pre">.circleci/config.yml</span></code> file in the root directory of your project.</p></li>
+<li><p>Copy and paste the following configuration into the <code class="docutils literal notranslate"><span class="pre">config.yml</span></code> file:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2.1</span>
+<span class="nt">orbs</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">heroku</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">circleci/heroku@2.0.0</span>
+
+<span class="nt">jobs</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">build</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">docker</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">python:3.8-slim-buster</span>
+<span class="w">    </span><span class="nt">working_directory</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">$CIRCLE_WORKING_DIRECTORY</span>
+<span class="w">    </span><span class="nt">steps</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">checkout</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">run</span><span class="p">:</span>
+<span class="w">          </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Install Python dependencies</span>
+<span class="w">          </span><span class="nt">command</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span>
+<span class="w">            </span><span class="no">python3 -m venv venv</span>
+<span class="w">            </span><span class="no">. venv/bin/activate</span>
+<span class="w">            </span><span class="no">pip install --upgrade pip</span>
+<span class="w">            </span><span class="no">pip install -r requirements.txt</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">save_cache</span><span class="p">:</span>
+<span class="w">          </span><span class="nt">key</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">deps1-{{ .Branch }}-{{ checksum &quot;requirements.txt&quot; }}</span>
+<span class="w">          </span><span class="nt">paths</span><span class="p">:</span>
+<span class="w">            </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;venv&quot;</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">run</span><span class="p">:</span>
+<span class="w">          </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Run pytest</span>
+<span class="w">          </span><span class="nt">command</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span>
+<span class="w">            </span><span class="no">source venv/bin/activate &amp;&amp; pytest</span>
+
+<span class="w">  </span><span class="nt">containerise</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">machine</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">    </span><span class="nt">steps</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">checkout</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">run</span><span class="p">:</span>
+<span class="w">          </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Authenticate with Docker Hub</span>
+<span class="w">          </span><span class="nt">command</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span>
+<span class="w">            </span><span class="no">echo &quot;$DOCKER_PASSWORD&quot; | docker login --username &quot;$DOCKERHUB_USERNAME&quot; --password-stdin</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">run</span><span class="p">:</span>
+<span class="w">          </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Build Docker image</span>
+<span class="w">          </span><span class="nt">command</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span>
+<span class="w">            </span><span class="no">docker build --tag ${DOCKERHUB_USERNAME}/${CIRCLE_PROJECT_REPONAME}:${CIRCLE_SHA1} .</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">run</span><span class="p">:</span>
+<span class="w">          </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Push Docker image to Docker Hub</span>
+<span class="w">          </span><span class="nt">command</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span>
+<span class="w">            </span><span class="no">docker push ${DOCKERHUB_USERNAME}/${CIRCLE_PROJECT_REPONAME}:${CIRCLE_SHA1}</span>
+
+<span class="w">  </span><span class="nt">deploy-prod</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">executor</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">heroku/default</span>
+<span class="w">    </span><span class="nt">steps</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">checkout</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">heroku/deploy-via-git</span>
+
+<span class="nt">workflows</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">build_and_deploy_workflow</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">jobs</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">build</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">containerise</span><span class="p">:</span>
+<span class="w">          </span><span class="nt">requires</span><span class="p">:</span>
+<span class="w">            </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">build</span>
+<span class="w">          </span><span class="nt">filters</span><span class="p">:</span>
+<span class="w">            </span><span class="nt">branches</span><span class="p">:</span>
+<span class="w">              </span><span class="nt">only</span><span class="p">:</span>
+<span class="w">                </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">master</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">deploy-prod</span><span class="p">:</span>
+<span class="w">          </span><span class="nt">requires</span><span class="p">:</span>
+<span class="w">            </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">containerise</span>
+<span class="w">          </span><span class="nt">filters</span><span class="p">:</span>
+<span class="w">            </span><span class="nt">branches</span><span class="p">:</span>
+<span class="w">              </span><span class="nt">only</span><span class="p">:</span>
+<span class="w">                </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">master</span>
+</pre></div>
+</div>
+</li>
 </ol>
 </section>
-<section id="step-7-verify-deployment">
-<h2>Step 7: Verify Deployment<a class="headerlink" href="#step-7-verify-deployment" title="Link to this heading"></a></h2>
+<section id="step-6-commit-circleci-configuration-changes">
+<h2>Step 6: Commit CircleCI Configuration Changes<a class="headerlink" href="#step-6-commit-circleci-configuration-changes" title="Link to this heading"></a></h2>
+<ol class="arabic">
+<li><p>Commit the <code class="docutils literal notranslate"><span class="pre">.circleci/config.yml</span></code> file to your Git repository.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>add<span class="w"> </span>.circleci/config.yml
+git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;Add CircleCI configuration for automated deployment&quot;</span>
+</pre></div>
+</div>
+</li>
+</ol>
+</section>
+<section id="step-7-deploy-your-django-app">
+<h2>Step 7: Deploy Your Django App<a class="headerlink" href="#step-7-deploy-your-django-app" title="Link to this heading"></a></h2>
+<ol class="arabic">
+<li><p>After completing the CircleCI configuration, push your code changes to trigger the CI/CD pipeline.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>push<span class="w"> </span>origin<span class="w"> </span>master
+</pre></div>
+</div>
+</li>
+<li><p>CircleCI will automatically build and test your Django app, containerize it using Docker, and push the Docker image to DockerHub.</p></li>
+<li><p>Finally, Heroku will deploy your Dockerized app to production.</p></li>
+</ol>
+</section>
+<section id="step-8-verify-deployment">
+<h2>Step 8: Verify Deployment<a class="headerlink" href="#step-8-verify-deployment" title="Link to this heading"></a></h2>
 <ol class="arabic simple">
-<li><p>Once the deployment is complete, verify that the Django app is running on the EC2 instance.</p></li>
-<li><p>Access the app using the EC2 instance’s public IP address or domain name.</p></li>
+<li><p>Once the deployment is complete, verify that the Django app is running smoothly on Heroku.</p></li>
+<li><p>Access the deployed app using the URL provided by Heroku.</p></li>
 </ol>
 </section>
 <section id="conclusion">
 <h2>Conclusion<a class="headerlink" href="#conclusion" title="Link to this heading"></a></h2>
-<p>This documentation provides a step-by-step guide for deploying your Django app to an AWS EC2 instance using CircleCI for continuous integration and continuous deployment (CI/CD).</p>
+<p>This documentation provides a detailed guide for deploying your Django app to Heroku using CircleCI for continuous integration, DockerHub for Docker image hosting, and Heroku for application deployment. By following these steps, you can efficiently manage and deploy your Django app in a cloud environment.</p>
+</section>
+<section id="circleci-environment-variables">
+<h2>CircleCI Environment Variables<a class="headerlink" href="#circleci-environment-variables" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">$CIRCLE_WORKING_DIRECTORY</span></code>: Represents the working directory in which CircleCI runs the job.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">$DOCKER_PASSWORD</span></code>: Docker Hub password used for authentication during image push.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">$DOCKERHUB_USERNAME</span></code>: Docker Hub username used for authentication during image push.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">$CIRCLE_PROJECT_REPONAME</span></code>: Name of the repository in which the CircleCI pipeline is running.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">$CIRCLE_SHA1</span></code>: SHA-1 hash of the current Git commit.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">$HEROKU_API_KEY</span></code>: API key used to authenticate with the Heroku API.</p></li>
+</ul>
 </section>
 </section>
 

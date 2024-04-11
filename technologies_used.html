@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Technologies Used &mdash; Letting 1.0 documentation</title>
+  <title>Technology Stack Guide &mdash; Letting 1.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
       <link rel="stylesheet" type="text/css" href="_static/custom.css?v=045fcb0f" />
@@ -51,21 +51,26 @@
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Installation Guide</a></li>
 <li class="toctree-l1"><a class="reference internal" href="app_usage.html">App usage guide</a></li>
 <li class="toctree-l1"><a class="reference internal" href="database_structure.html">Database Structure and Models</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Technologies Used</a><ul>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Technology Stack Guide</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#introduction">Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#programming-languages">Programming Languages</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#backend-technologies">Backend Technologies</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#frontend-technologies">Frontend Technologies</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#database">Database</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#deployment">Deployment</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#version-control">Version Control</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#programming-languages">Programming Languages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#git-pages">Git Pages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#circleci">CircleCI</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#additional-libraries-and-tools">Additional Libraries and Tools</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#coverage">Coverage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#flake8">Flake8</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#sphinx-documentation-library">Sphinx Documentation Library</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#conclusion">Conclusion</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="unittest.html">Test Documentation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="docker_setup.html">Docker Setup for Development</a></li>
+<li class="toctree-l1"><a class="reference internal" href="deployment_setup.html">Deployment Steps to Heroku with CircleCI and DockerHub</a></li>
 </ul>
 
         </div>
@@ -82,7 +87,7 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
-      <li class="breadcrumb-item active">Technologies Used</li>
+      <li class="breadcrumb-item active">Technology Stack Guide</li>
       <li class="wy-breadcrumbs-aside">
             <a href="_sources/technologies_used.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -92,11 +97,18 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="technologies-used">
-<span id="id1"></span><h1>Technologies Used<a class="headerlink" href="#technologies-used" title="Link to this heading"></a></h1>
+  <section id="technology-stack-guide">
+<span id="technologies-used"></span><h1>Technology Stack Guide<a class="headerlink" href="#technology-stack-guide" title="Link to this heading"></a></h1>
 <section id="introduction">
 <h2>Introduction<a class="headerlink" href="#introduction" title="Link to this heading"></a></h2>
 <p>The “project-13” project is developed using a combination of technologies and programming languages to achieve its goals. This documentation provides an overview of the technologies and tools utilized in the project’s development.</p>
+</section>
+<section id="programming-languages">
+<h2>Programming Languages<a class="headerlink" href="#programming-languages" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p><strong>Python:</strong> As the primary programming language for backend development, Python is extensively used in “project-13” for implementing business logic, data processing, and web server configuration.</p></li>
+<li><p><strong>JavaScript:</strong> In “project-13,” JavaScript is utilized for frontend interactions and dynamic content rendering. JavaScript enhances the user experience by enabling interactive features and real-time updates within the web application.</p></li>
+</ul>
 </section>
 <section id="backend-technologies">
 <h2>Backend Technologies<a class="headerlink" href="#backend-technologies" title="Link to this heading"></a></h2>
@@ -113,14 +125,14 @@
 <section id="database">
 <h2>Database<a class="headerlink" href="#database" title="Link to this heading"></a></h2>
 <ul class="simple">
-<li><p><strong>SQLite:</strong> For development and testing purposes, “project-13” utilizes SQLite, a lightweight, file-based database engine. SQLite provides a simple and efficient solution for managing small to medium-sized datasets during the development phase.</p></li>
+<li><p><strong>SQLite:</strong> is a C library that provides a lightweight disk-based database. It doesn’t require a separate server process and allows access to the database using a nonstandard variant of the SQL query language. It is a popular choice for development and small-scale applications.</p></li>
 </ul>
 </section>
 <section id="deployment">
 <h2>Deployment<a class="headerlink" href="#deployment" title="Link to this heading"></a></h2>
 <ul class="simple">
 <li><p><strong>Docker:</strong> Containerization technology is employed in “project-13” using Docker. Docker allows the packaging of the application and its dependencies into containers, providing consistency across different environments and simplifying deployment processes.</p></li>
-<li><p><strong>Render:</strong> “project-13” utilizes Render, a cloud service, for deploying and hosting web applications. Render offers an intuitive platform for managing deployments, scaling applications, and monitoring performance.</p></li>
+<li><p><strong>Heroku:</strong> “project-13” utilizes Heroku, a cloud platform that allows developers to deploy, manage, and scale applications. Docker is a containerization platform that simplifies the process of packaging and deploying applications in lightweight, portable containers. Deploying a Dockerized application on Heroku allows for easy scalability and management of the application’s infrastructure.</p></li>
 </ul>
 </section>
 <section id="version-control">
@@ -129,17 +141,34 @@
 <li><p><strong>Git:</strong> “project-13” employs Git, a distributed version control system, for tracking changes in the source code. Git enables collaborative development, version management, and code review processes, ensuring the integrity and traceability of the project’s codebase.</p></li>
 </ul>
 </section>
-<section id="programming-languages">
-<h2>Programming Languages<a class="headerlink" href="#programming-languages" title="Link to this heading"></a></h2>
+<section id="git-pages">
+<h2>Git Pages<a class="headerlink" href="#git-pages" title="Link to this heading"></a></h2>
 <ul class="simple">
-<li><p><strong>Python:</strong> As the primary programming language for backend development, Python is extensively used in “project-13” for implementing business logic, data processing, and web server configuration.</p></li>
-<li><p><strong>JavaScript:</strong> In “project-13,” JavaScript is utilized for frontend interactions and dynamic content rendering. JavaScript enhances the user experience by enabling interactive features and real-time updates within the web application.</p></li>
+<li><p><strong>GitHub Pages</strong> is a static site hosting service provided by GitHub. It allows users to host websites directly from their GitHub repositories. This feature can be leveraged to host Sphinx documentation, providing a convenient way to share project documentation with the community.</p></li>
+</ul>
+</section>
+<section id="circleci">
+<h2>CircleCI<a class="headerlink" href="#circleci" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p><strong>CircleCI</strong> is a continuous integration and continuous delivery (CI/CD) platform that automates the build, test, and deployment process for software projects. It integrates with version control systems like GitHub to automatically trigger builds whenever changes are pushed to the repository.</p></li>
 </ul>
 </section>
 <section id="additional-libraries-and-tools">
 <h2>Additional Libraries and Tools<a class="headerlink" href="#additional-libraries-and-tools" title="Link to this heading"></a></h2>
 <ul class="simple">
 <li><p><strong>Sentry:</strong> “project-13” integrates Sentry, an error monitoring tool, for tracking and managing application errors. Sentry provides real-time error tracking, notifications, and insights to help developers identify and resolve issues promptly.</p></li>
+</ul>
+</section>
+<section id="coverage">
+<h2>Coverage<a class="headerlink" href="#coverage" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p><strong>Coverage:</strong> is a tool used to measure the effectiveness of tests by analyzing which parts of the code are executed when the tests are run. It generates reports showing the percentage of code covered by tests, helping developers identify areas of the codebase that require more thorough testing.</p></li>
+</ul>
+</section>
+<section id="flake8">
+<h2>Flake8<a class="headerlink" href="#flake8" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p><strong>Flake8</strong> is a command-line utility for enforcing coding style consistency in Python codebases. It combines several tools, including PyFlakes, pycodestyle, and McCabe, to analyze code and report any violations of the specified coding standards.</p></li>
 </ul>
 </section>
 <section id="sphinx-documentation-library">
