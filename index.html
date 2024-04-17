@@ -50,10 +50,10 @@
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Installation Guide</a></li>
 <li class="toctree-l1"><a class="reference internal" href="app_usage.html">App usage guide</a></li>
 <li class="toctree-l1"><a class="reference internal" href="database_structure.html">Database Structure and Models</a></li>
-<li class="toctree-l1"><a class="reference internal" href="technologies_used.html">Technologies Used</a></li>
+<li class="toctree-l1"><a class="reference internal" href="technologies_used.html">Technology Stack Guide</a></li>
 <li class="toctree-l1"><a class="reference internal" href="unittest.html">Test Documentation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="docker_setup.html">Docker Setup for Development</a></li>
-<li class="toctree-l1"><a class="reference internal" href="deployment_setup.html">Deployment Steps to AWS EC2 Instance</a></li>
+<li class="toctree-l1"><a class="reference internal" href="deployment_setup.html">Deployment Steps to Heroku with CircleCI and DockerHub</a></li>
 </ul>
 
         </div>
@@ -108,15 +108,19 @@
 <li class="toctree-l2"><a class="reference internal" href="database_structure.html#relationships">Relationships</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="technologies_used.html">Technologies Used</a><ul>
+<li class="toctree-l1"><a class="reference internal" href="technologies_used.html">Technology Stack Guide</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="technologies_used.html#introduction">Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="technologies_used.html#programming-languages">Programming Languages</a></li>
 <li class="toctree-l2"><a class="reference internal" href="technologies_used.html#backend-technologies">Backend Technologies</a></li>
 <li class="toctree-l2"><a class="reference internal" href="technologies_used.html#frontend-technologies">Frontend Technologies</a></li>
 <li class="toctree-l2"><a class="reference internal" href="technologies_used.html#database">Database</a></li>
 <li class="toctree-l2"><a class="reference internal" href="technologies_used.html#deployment">Deployment</a></li>
 <li class="toctree-l2"><a class="reference internal" href="technologies_used.html#version-control">Version Control</a></li>
-<li class="toctree-l2"><a class="reference internal" href="technologies_used.html#programming-languages">Programming Languages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="technologies_used.html#git-pages">Git Pages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="technologies_used.html#circleci">CircleCI</a></li>
 <li class="toctree-l2"><a class="reference internal" href="technologies_used.html#additional-libraries-and-tools">Additional Libraries and Tools</a></li>
+<li class="toctree-l2"><a class="reference internal" href="technologies_used.html#coverage">Coverage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="technologies_used.html#flake8">Flake8</a></li>
 <li class="toctree-l2"><a class="reference internal" href="technologies_used.html#sphinx-documentation-library">Sphinx Documentation Library</a></li>
 <li class="toctree-l2"><a class="reference internal" href="technologies_used.html#conclusion">Conclusion</a></li>
 </ul>
@@ -136,15 +140,17 @@
 <li class="toctree-l2"><a class="reference internal" href="docker_setup.html#cleaning-up">Cleaning Up</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="deployment_setup.html">Deployment Steps to AWS EC2 Instance</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="deployment_setup.html#step-1-generate-aws-key-pair">Step 1: Generate AWS Key Pair</a></li>
-<li class="toctree-l2"><a class="reference internal" href="deployment_setup.html#step-2-configure-circleci">Step 2: Configure CircleCI</a></li>
-<li class="toctree-l2"><a class="reference internal" href="deployment_setup.html#step-3-create-ec2-instance">Step 3: Create EC2 Instance</a></li>
-<li class="toctree-l2"><a class="reference internal" href="deployment_setup.html#step-4-set-up-docker-and-docker-compose-on-ec2-instance">Step 4: Set Up Docker and Docker Compose on EC2 Instance</a></li>
-<li class="toctree-l2"><a class="reference internal" href="deployment_setup.html#step-5-prepare-django-app-for-deployment">Step 5: Prepare Django App for Deployment</a></li>
-<li class="toctree-l2"><a class="reference internal" href="deployment_setup.html#step-6-push-code-changes-and-trigger-ci-cd-pipeline">Step 6: Push Code Changes and Trigger CI/CD Pipeline</a></li>
-<li class="toctree-l2"><a class="reference internal" href="deployment_setup.html#step-7-verify-deployment">Step 7: Verify Deployment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="deployment_setup.html">Deployment Steps to Heroku with CircleCI and DockerHub</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="deployment_setup.html#step-1-create-heroku-account">Step 1: Create Heroku Account</a></li>
+<li class="toctree-l2"><a class="reference internal" href="deployment_setup.html#step-2-install-heroku-cli">Step 2: Install Heroku CLI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="deployment_setup.html#step-3-prepare-django-app-for-deployment">Step 3: Prepare Django App for Deployment</a></li>
+<li class="toctree-l2"><a class="reference internal" href="deployment_setup.html#step-4-initialize-git-repository">Step 4: Initialize Git Repository</a></li>
+<li class="toctree-l2"><a class="reference internal" href="deployment_setup.html#step-5-set-up-circleci-configuration">Step 5: Set Up CircleCI Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="deployment_setup.html#step-6-commit-circleci-configuration-changes">Step 6: Commit CircleCI Configuration Changes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="deployment_setup.html#step-7-deploy-your-django-app">Step 7: Deploy Your Django App</a></li>
+<li class="toctree-l2"><a class="reference internal" href="deployment_setup.html#step-8-verify-deployment">Step 8: Verify Deployment</a></li>
 <li class="toctree-l2"><a class="reference internal" href="deployment_setup.html#conclusion">Conclusion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="deployment_setup.html#circleci-environment-variables">CircleCI Environment Variables</a></li>
 </ul>
 </li>
 </ul>

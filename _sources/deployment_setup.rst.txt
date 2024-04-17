@@ -1,72 +1,163 @@
-Deployment Steps to AWS EC2 Instance
-=====================================
+Deployment Steps to Heroku with CircleCI and DockerHub
+======================================================
 
-Step 1: Generate AWS Key Pair
+Step 1: Create Heroku Account
 ------------------------------
 
-1. Sign in to the AWS Management Console.
-2. Navigate to the EC2 Dashboard.
-3. Click on "Key Pairs" in the left-hand navigation pane.
-4. Click on "Create Key Pair".
-5. Enter a name for the key pair (e.g., `my-aws-key`) and click "Create Key Pair".
-6. Download the private key file (`my-aws-key.pem`) to your local machine and ensure secure storage.
+1. Visit the Heroku website at `https://www.heroku.com/ <https://www.heroku.com/>`_.
+2. Sign up for a free Heroku account if you don't have one already.
 
-Step 2: Configure CircleCI
+Step 2: Install Heroku CLI
 ---------------------------
 
-1. Open your project's CircleCI configuration file (`config.yml`).
-2. Ensure that the `config.yml` file contains the necessary steps for building and deploying your Django app.
-3. Replace placeholders (e.g., `YOUR_AWS_KEY.pem`, `YOUR_EC2_PUBLIC_IP`, `DOCKERHUB_USERNAME`, `DOCKERHUB_PASSWORD`) with your actual credentials and settings.
-4. Commit the changes to your repository.
+1. Install the Heroku Command Line Interface (CLI) by following the instructions provided at `https://devcenter.heroku.com/articles/heroku-cli <https://devcenter.heroku.com/articles/heroku-cli>`_.
 
-Step 3: Create EC2 Instance
-----------------------------
-
-1. Log in to the AWS Management Console.
-2. Navigate to the EC2 Dashboard.
-3. Click on "Launch Instance" to create a new EC2 instance.
-4. Choose an Amazon Machine Image (AMI) for your instance.
-5. Select an instance type (e.g., t2.micro).
-6. Configure instance details, including network settings, security groups, and key pairs.
-7. Review and launch the instance.
-8. Connect to the EC2 instance using SSH.
-
-Step 4: Set Up Docker and Docker Compose on EC2 Instance
----------------------------------------------------------
-
-1. Once connected to the EC2 instance via SSH, update the package repositories: ::
-   
-       sudo apt-get update
-
-2. Install Docker: ::
-   
-       sudo apt-get install -y docker.io
-
-3. Install Docker Compose: ::
-   
-       sudo apt-get install -y docker-compose
-
-Step 5: Prepare Django App for Deployment
+Step 3: Prepare Django App for Deployment
 ------------------------------------------
 
-1. Ensure that your Django project is configured for deployment with Docker and Docker Compose.
-2. Update the `Dockerfile` and `docker-compose.yml` files as necessary.
-3. Make sure all project dependencies are listed in the `requirements.txt` file.
+1. Ensure that your Django project is configured properly for deployment.
+2. Make sure you have a ``requirements.txt`` file listing all the project dependencies.
+3. Create a ``Procfile`` in the root directory of your project to specify the commands to run your application.
 
-Step 6: Push Code Changes and Trigger CI/CD Pipeline
------------------------------------------------------
+   Example ``Procfile``::
 
-1. Commit and push any changes to your project repository.
-2. CircleCI will automatically trigger the CI/CD pipeline.
-3. CircleCI will build the Docker image, run unittests, push the image to DockerHub, and deploy the app to the EC2 instance.
+       web: gunicorn your_project_name.wsgi --log-file -
 
-Step 7: Verify Deployment
+Step 4: Initialize Git Repository
+----------------------------------
+
+1. If your project is not already under version control, initialize a Git repository in your project directory.
+
+   .. code-block:: bash
+
+       git init
+
+2. Add your project files to the repository and commit them.
+
+   .. code-block:: bash
+
+       git add .
+       git commit -m "Initial commit"
+
+Step 5: Set Up CircleCI Configuration
+--------------------------------------
+
+1. Create a ``.circleci/config.yml`` file in the root directory of your project.
+2. Copy and paste the following configuration into the ``config.yml`` file:
+
+   .. code-block:: yaml
+
+       version: 2.1
+       orbs:
+         heroku: circleci/heroku@2.0.0
+
+       jobs:
+         build:
+           docker:
+             - image: python:3.8-slim-buster
+           working_directory: $CIRCLE_WORKING_DIRECTORY
+           steps:
+             - checkout
+             - run:
+                 name: Install Python dependencies
+                 command: |
+                   python3 -m venv venv
+                   . venv/bin/activate
+                   pip install --upgrade pip
+                   pip install -r requirements.txt
+             - save_cache:
+                 key: deps1-{{ .Branch }}-{{ checksum "requirements.txt" }}
+                 paths:
+                   - "venv"
+             - run:
+                 name: Run pytest
+                 command: |
+                   source venv/bin/activate && pytest
+
+         containerise:
+           machine:
+             enabled: true
+           steps:
+             - checkout
+             - run:
+                 name: Authenticate with Docker Hub
+                 command: |
+                   echo "$DOCKER_PASSWORD" | docker login --username "$DOCKERHUB_USERNAME" --password-stdin
+             - run:
+                 name: Build Docker image
+                 command: |
+                   docker build --tag ${DOCKERHUB_USERNAME}/${CIRCLE_PROJECT_REPONAME}:${CIRCLE_SHA1} .
+             - run:
+                 name: Push Docker image to Docker Hub
+                 command: |
+                   docker push ${DOCKERHUB_USERNAME}/${CIRCLE_PROJECT_REPONAME}:${CIRCLE_SHA1}
+
+         deploy-prod:
+           executor: heroku/default
+           steps:
+             - checkout
+             - heroku/deploy-via-git
+
+       workflows:
+         build_and_deploy_workflow:
+           jobs:
+             - build
+             - containerise:
+                 requires:
+                   - build
+                 filters:
+                   branches:
+                     only:
+                       - master
+             - deploy-prod:
+                 requires:
+                   - containerise
+                 filters:
+                   branches:
+                     only:
+                       - master
+
+Step 6: Commit CircleCI Configuration Changes
+----------------------------------------------
+
+1. Commit the ``.circleci/config.yml`` file to your Git repository.
+
+   .. code-block:: bash
+
+       git add .circleci/config.yml
+       git commit -m "Add CircleCI configuration for automated deployment"
+
+Step 7: Deploy Your Django App
+-------------------------------
+
+1. After completing the CircleCI configuration, push your code changes to trigger the CI/CD pipeline.
+
+   .. code-block:: bash
+
+       git push origin master
+
+2. CircleCI will automatically build and test your Django app, containerize it using Docker, and push the Docker image to DockerHub.
+
+3. Finally, Heroku will deploy your Dockerized app to production.
+
+Step 8: Verify Deployment
 --------------------------
 
-1. Once the deployment is complete, verify that the Django app is running on the EC2 instance.
-2. Access the app using the EC2 instance's public IP address or domain name.
+1. Once the deployment is complete, verify that the Django app is running smoothly on Heroku.
+
+2. Access the deployed app using the URL provided by Heroku.
 
 Conclusion
 ----------
 
-This documentation provides a step-by-step guide for deploying your Django app to an AWS EC2 instance using CircleCI for continuous integration and continuous deployment (CI/CD).
+This documentation provides a detailed guide for deploying your Django app to Heroku using CircleCI for continuous integration, DockerHub for Docker image hosting, and Heroku for application deployment. By following these steps, you can efficiently manage and deploy your Django app in a cloud environment.
+
+CircleCI Environment Variables
+-------------------------------
+
+- ``$CIRCLE_WORKING_DIRECTORY``: Represents the working directory in which CircleCI runs the job.
+- ``$DOCKER_PASSWORD``: Docker Hub password used for authentication during image push.
+- ``$DOCKERHUB_USERNAME``: Docker Hub username used for authentication during image push.
+- ``$CIRCLE_PROJECT_REPONAME``: Name of the repository in which the CircleCI pipeline is running.
+- ``$CIRCLE_SHA1``: SHA-1 hash of the current Git commit.
+- ``$HEROKU_API_KEY``: API key used to authenticate with the Heroku API.

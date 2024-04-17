@@ -1,12 +1,20 @@
 .. _technologies_used:
 
-=======================
-Technologies Used
-=======================
+======================
+Technology Stack Guide
+======================
 
 Introduction
 -----------------------
 The "project-13" project is developed using a combination of technologies and programming languages to achieve its goals. This documentation provides an overview of the technologies and tools utilized in the project's development.
+
+Programming Languages
+---------------------
+
+- **Python:** As the primary programming language for backend development, Python is extensively used in "project-13" for implementing business logic, data processing, and web server configuration.
+
+- **JavaScript:** In "project-13," JavaScript is utilized for frontend interactions and dynamic content rendering. JavaScript enhances the user experience by enabling interactive features and real-time updates within the web application.
+
 
 Backend Technologies
 --------------------
@@ -21,32 +29,42 @@ Frontend Technologies
 Database
 --------
 
-- **SQLite:** For development and testing purposes, "project-13" utilizes SQLite, a lightweight, file-based database engine. SQLite provides a simple and efficient solution for managing small to medium-sized datasets during the development phase.
+- **SQLite:** is a C library that provides a lightweight disk-based database. It doesn't require a separate server process and allows access to the database using a nonstandard variant of the SQL query language. It is a popular choice for development and small-scale applications.
 
 Deployment
 ----------
 
 - **Docker:** Containerization technology is employed in "project-13" using Docker. Docker allows the packaging of the application and its dependencies into containers, providing consistency across different environments and simplifying deployment processes.
 
-- **Render:** "project-13" utilizes Render, a cloud service, for deploying and hosting web applications. Render offers an intuitive platform for managing deployments, scaling applications, and monitoring performance.
+- **Heroku:** "project-13" utilizes Heroku, a cloud platform that allows developers to deploy, manage, and scale applications. Docker is a containerization platform that simplifies the process of packaging and deploying applications in lightweight, portable containers. Deploying a Dockerized application on Heroku allows for easy scalability and management of the application's infrastructure.
 
 Version Control
 ----------------
 
 - **Git:** "project-13" employs Git, a distributed version control system, for tracking changes in the source code. Git enables collaborative development, version management, and code review processes, ensuring the integrity and traceability of the project's codebase.
 
+Git Pages
+---------
+- **GitHub Pages** is a static site hosting service provided by GitHub. It allows users to host websites directly from their GitHub repositories. This feature can be leveraged to host Sphinx documentation, providing a convenient way to share project documentation with the community.
 
-Programming Languages
----------------------
+CircleCI
+--------
 
-- **Python:** As the primary programming language for backend development, Python is extensively used in "project-13" for implementing business logic, data processing, and web server configuration.
-
-- **JavaScript:** In "project-13," JavaScript is utilized for frontend interactions and dynamic content rendering. JavaScript enhances the user experience by enabling interactive features and real-time updates within the web application.
+- **CircleCI** is a continuous integration and continuous delivery (CI/CD) platform that automates the build, test, and deployment process for software projects. It integrates with version control systems like GitHub to automatically trigger builds whenever changes are pushed to the repository.
 
 Additional Libraries and Tools
 -------------------------------
 
 - **Sentry:** "project-13" integrates Sentry, an error monitoring tool, for tracking and managing application errors. Sentry provides real-time error tracking, notifications, and insights to help developers identify and resolve issues promptly.
+
+Coverage
+--------
+- **Coverage:** is a tool used to measure the effectiveness of tests by analyzing which parts of the code are executed when the tests are run. It generates reports showing the percentage of code covered by tests, helping developers identify areas of the codebase that require more thorough testing.
+
+Flake8
+------
+- **Flake8** is a command-line utility for enforcing coding style consistency in Python codebases. It combines several tools, including PyFlakes, pycodestyle, and McCabe, to analyze code and report any violations of the specified coding standards.
+
 
 Sphinx Documentation Library
 ----------------------------
